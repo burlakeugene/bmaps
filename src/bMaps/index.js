@@ -95,7 +95,7 @@ export default class bMaps {
   getData(iso) {
     let { data } = this;
     return data.find((item) => {
-      return item.iso === iso;
+      return item.iso.toLowerCase() === iso.toLowerCase();
     });
   }
   setColor({ node, hover } = {}) {
