@@ -114,7 +114,7 @@ export default class bMaps {
       node.style.fill = isInData ? settings.highlight : styles.land.fill;
       node.style.fillOpacity = isInData
         ? isInData.value / max
-        : styles.land.fillOpacity;
+        : (styles.land.fillOpacity || 1);
     } else {
       node.style.stroke = styles.land.hover.stroke;
       node.style.strokeWidth = styles.land.hover.strokeWidth;
