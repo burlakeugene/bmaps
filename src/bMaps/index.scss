@@ -1,4 +1,20 @@
-.bmaps{
+body {
+}
+
+.bmaps {
   position: relative;
   font-size: 0;
+  &__tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    border-radius: 3px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #fff;
+    &:empty {
+      display: none;
+    }
+  }
 }
