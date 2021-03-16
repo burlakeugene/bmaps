@@ -67,11 +67,31 @@ export default class bMaps {
   styles() {
     let { countries } = this.structure;
     for (let country in countries) {
-      let node = countries[country]['node'];
+      let node = countries[country]['node'],
+        calcTooltipStyles = (event) => {
+          let left =
+              event.clientX -
+              this.svg.getBoundingClientRect().left -
+              this.tooltip.clientWidth / 2 +
+              5,
+            top = event.clientY - this.svg.getBoundingClientRect().top + 15;
+          if (left < 0) left = 0;
+          if (left > this.svg.clientWidth - this.tooltip.clientWidth)
+            left = this.svg.clientWidth - this.tooltip.clientWidth;
+          if (top > this.svg.clientHeight - this.tooltip.clientHeight)
+            top =
+              event.clientY -
+              this.svg.getBoundingClientRect().top -
+              15 -
+              this.tooltip.clientHeight;
+          this.tooltip.style.top = top + 'px';
+          this.tooltip.style.left = left + 'px';
+        };
       this.setColor({
         node,
       });
-      node.addEventListener('mouseenter', () => {
+      node.addEventListener('mouseenter', (event) => {
+        calcTooltipStyles(event);
         this.tooltip.innerHTML = this.getTooltipData(node);
         this.setColor({
           node,
@@ -79,23 +99,7 @@ export default class bMaps {
         });
       });
       node.addEventListener('mousemove', (event) => {
-        let left =
-            event.clientX -
-            this.svg.getBoundingClientRect().left -
-            this.tooltip.clientWidth / 2 +
-            5,
-          top = event.clientY - this.svg.getBoundingClientRect().top + 15;
-        if (left < 0) left = 0;
-        if (left > this.svg.clientWidth - this.tooltip.clientWidth)
-          left = this.svg.clientWidth - this.tooltip.clientWidth;
-        if (top > this.svg.clientHeight - this.tooltip.clientHeight)
-          top =
-            event.clientY -
-            this.svg.getBoundingClientRect().top -
-            15 -
-            this.tooltip.clientHeight;
-        this.tooltip.style.top = top + 'px';
-        this.tooltip.style.left = left + 'px';
+        calcTooltipStyles(event);
       });
       node.addEventListener('mouseout', () => {
         this.tooltip.innerHTML = '';
