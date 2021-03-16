@@ -79,10 +79,23 @@ export default class bMaps {
         });
       });
       node.addEventListener('mousemove', (event) => {
-        this.tooltip.style.top =
-          event.clientY - this.svg.getBoundingClientRect().top + 2 + 'px';
-        this.tooltip.style.left =
-          event.clientX - this.svg.getBoundingClientRect().left + 2 + 'px';
+        let left =
+            event.clientX -
+            this.svg.getBoundingClientRect().left -
+            this.tooltip.clientWidth / 2 +
+            5,
+          top = event.clientY - this.svg.getBoundingClientRect().top + 15;
+        if (left < 0) left = 0;
+        if (left > this.svg.clientWidth - this.tooltip.clientWidth)
+          left = this.svg.clientWidth - this.tooltip.clientWidth;
+        if (top > this.svg.clientHeight - this.tooltip.clientHeight)
+          top =
+            event.clientY -
+            this.svg.getBoundingClientRect().top -
+            15 -
+            this.tooltip.clientHeight;
+        this.tooltip.style.top = top + 'px';
+        this.tooltip.style.left = left + 'px';
       });
       node.addEventListener('mouseout', () => {
         this.tooltip.innerHTML = '';
@@ -114,7 +127,7 @@ export default class bMaps {
       node.style.fill = isInData ? settings.highlight : styles.land.fill;
       node.style.fillOpacity = isInData
         ? isInData.value / max
-        : (styles.land.fillOpacity || 1);
+        : styles.land.fillOpacity || 1;
     } else {
       node.style.stroke = styles.land.hover.stroke;
       node.style.strokeWidth = styles.land.hover.strokeWidth;

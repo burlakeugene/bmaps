@@ -13,6 +13,7 @@ body {
     padding: 10px 15px;
     font-size: 14px;
     color: #fff;
+    white-space: nowrap;
     &:empty {
       display: none;
     }
